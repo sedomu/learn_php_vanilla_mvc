@@ -32,7 +32,7 @@
             <div class="navbar-item">
                 <div class="buttons">
                     <?php if (isset($_SESSION['user'])): ?>
-                        <a class="button is-light" href="index.php?action=#">
+                        <a class="button is-light" href="index.php?action=profile">
                             <?= $_SESSION["user"]["userName"] ?>
                         </a>
                         <a class="button is-danger" href="index.php?action=logout">

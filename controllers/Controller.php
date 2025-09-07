@@ -65,6 +65,7 @@ class Controller{
                 ];
 
                 header("Location: index.php");
+                exit;
             }
         }
         
@@ -83,6 +84,7 @@ class Controller{
         session_destroy();
 
         header("Location: index.php");
+        exit;
     }
     
     public function getSignUpPage() : void {
@@ -99,6 +101,38 @@ class Controller{
         $view = new View;
         $view->render(
             "forgottenPasswordPage",
+            [
+                "albumsList" => $this->albumsList,
+            ]
+        );
+    }
+    
+    public function getProfilePage() : void {
+        if (!isset($_SESSION['user']['id'])) {
+                header("Location: index.php?action=login");
+                exit;
+        }
+    
+        // POST
+        if($_SERVER['REQUEST_METHOD'] === "POST"){
+            // $profilePicture = $_POST[]
+            $newUserName = trim($_POST["user-name"] ?? "");
+            $newPassword = trim($_POST["password"] ?? "");
+            
+            if ($newUserName !== "" && $newUserName !== $_SESSION["user"]["userName"]){
+                $userManager = new UserManager();
+                $userDB = $userManager->changeUserName($_SESSION["user"]["id"], $newUserName);
+                
+                if ($userDB){
+                    $_SESSION["user"]["userName"] = $userDB->getUserName();
+                }
+            }
+        }
+        
+        // GET
+        $view = new View;
+        $view->render(
+            "profilePage",
             [
                 "albumsList" => $this->albumsList,
             ]
