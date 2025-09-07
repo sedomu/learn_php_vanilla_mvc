@@ -112,7 +112,6 @@ class Controller{
     
         // POST
         if($_SERVER['REQUEST_METHOD'] === "POST"){
-            // $profilePicture = $_POST[]
             $newUserName = trim($_POST["user-name"] ?? "");
             $newPassword = trim($_POST["password"] ?? "");
             
@@ -130,6 +129,16 @@ class Controller{
             if ($newPassword !== "" && !$user->verifyPassword($newPassword)){
                 $userDB = $userManager->changePassword($user->getId(), $newPassword);
             }
+            
+            if (isset($_FILES['profile-picture']) && $_FILES['profile-picture']['error'] === UPLOAD_ERR_OK) {
+                    $fileTmpPath = $_FILES['profile-picture']['tmp_name'];
+                    $info = getimagesize($fileTmpPath);
+            
+                    if ($info && $info[2] === IMAGETYPE_JPEG) {
+                        $destPath = "assets/profiles/profile" . $user->getId() . ".jpg";
+                        move_uploaded_file($fileTmpPath, $destPath);
+                    }
+                }
         }
         
         // GET
