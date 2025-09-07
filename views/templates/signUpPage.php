@@ -36,7 +36,7 @@
               </div>
 
               <div class="has-text-centered">
-                  <a href="index.php?action=signin">I have an account</a>
+                  <a href="index.php?action=login">I have an account</a>
               </div>
 
             </form>

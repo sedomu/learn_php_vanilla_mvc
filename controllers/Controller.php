@@ -44,10 +44,10 @@ class Controller{
         }
     }
     
-    public function getSignInPage() : void {
+    public function getLoginPage() : void {
         $view = new View;
         $view->render(
-            "signInPage",
+            "loginPage",
             [
                 "albumsList" => $this->albumsList,
             ]

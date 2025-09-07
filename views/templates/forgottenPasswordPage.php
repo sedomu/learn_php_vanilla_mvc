@@ -22,7 +22,7 @@
               </div>
 
               <div class="has-text-centered">
-                <a href="index.php?action=signup">Sign Up</a> | <a href="index.php?action=signin">I don't have an account</a>
+                <a href="index.php?action=signup">Sign Up</a> | <a href="index.php?action=login">Log In</a>
               </div>
 
             </form>
