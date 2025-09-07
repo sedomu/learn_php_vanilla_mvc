@@ -5,7 +5,7 @@
 
         <div class="card">
           <div class="card-content">
-            <h1 class="title has-text-centered">Sign In</h1>
+            <h1 class="title has-text-centered">Sign Up</h1>
 
             <form action="#" method="POST">
               <div class="field">
@@ -21,22 +21,22 @@
                   <input class="input" type="password" placeholder="********" required>
                 </div>
               </div>
-
+              
               <div class="field">
-                <label class="checkbox">
-                  <input type="checkbox">
-                      Remember me
-                </label>
+                <label class="label">Check password</label>
+                <div class="control">
+                  <input class="input" type="password" placeholder="********" required>
+                </div>
               </div>
 
               <div class="field">
                 <div class="control">
-                  <button class="button is-primary is-fullwidth">Log In</button>
+                  <button class="button is-primary is-fullwidth">Sign up</button>
                 </div>
               </div>
 
               <div class="has-text-centered">
-                <a href="index.php?action=forgottenPassword">I forgot my password</a> | <a href="index.php?action=signin">I don't have an account</a>
+                  <a href="index.php?action=signin">I have an account</a>
               </div>
 
             </form>

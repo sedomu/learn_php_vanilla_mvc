@@ -54,6 +54,26 @@ class Controller{
         );
     }
     
+    public function getSignUpPage() : void {
+        $view = new View;
+        $view->render(
+            "signUpPage",
+            [
+                "albumsList" => $this->albumsList,
+            ]
+        );
+    }
+    
+    public function getForgottenPasswordPage() : void {
+        $view = new View;
+        $view->render(
+            "forgottenPasswordPage",
+            [
+                "albumsList" => $this->albumsList,
+            ]
+        );
+    }
+    
     public function getNotFoundPage() : void {
         $view = new View;
         $view->render(
