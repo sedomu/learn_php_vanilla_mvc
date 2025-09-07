@@ -7,26 +7,19 @@
           <div class="card-content">
             <h1 class="title has-text-centered">Log In</h1>
 
-            <form action="#" method="POST">
+            <form  method="POST">
               <div class="field">
-                <label class="label">E-mail</label>
+                <label class="label">Username</label>
                 <div class="control">
-                  <input class="input" type="email" placeholder="example@domain.com" required>
+                  <input name="user-name" class="input" type="text" placeholder="example" required>
                 </div>
               </div>
 
               <div class="field">
                 <label class="label">Password</label>
                 <div class="control">
-                  <input class="input" type="password" placeholder="********" required>
+                  <input name="password" class="input" type="password" placeholder="********" required>
                 </div>
-              </div>
-
-              <div class="field">
-                <label class="checkbox">
-                  <input type="checkbox">
-                      Remember me
-                </label>
               </div>
 
               <div class="field">
@@ -36,7 +29,7 @@
               </div>
 
               <div class="has-text-centered">
-                <a href="index.php?action=forgottenPassword">I forgot my password</a> | <a href="index.php?action=signup">I don't have an account</a>
+                <a href="index.php?action=forgottenPassword"><s>I forgot my password</s></a> | <a href="index.php?action=signup">I don't have an account</a>
               </div>
 
             </form>

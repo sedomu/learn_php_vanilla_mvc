@@ -11,7 +11,7 @@ class Album {
     private string $wikipediaPresentation;
     
     /**
-     * @param Album[] $data
+     * @param array<string, mixed> $data
      */
     public function __construct(array $data = []){
         if(!empty($data)){
@@ -20,7 +20,7 @@ class Album {
     }
     
     /**
-     * @param Album[] $data
+     * @param array<string, mixed> $data
      */
     public function hydrate(array $data) : void {
         foreach($data as $key => $value){
