@@ -1,13 +1,13 @@
 <section class="section">
     <div class="container">
-        <h1 class="title">Mon compte</h1>
+        <h1 class="title">My account</h1>
 
         <form action="index.php?action=profile" method="post" enctype="multipart/form-data">
             <div class="field is-flex is-flex-direction-column is-align-items-center">
                 <label class="label">Profile picture</label>
                 <div class="control is-flex is-align-items-center" style="gap: 1rem;">
                     <figure class="image is-128x128 is-square">
-                        <img class="is-rounded" src="assets/profiles/profile1.jpg" alt="Profil">
+                        <img class="is-rounded" src="assets/profiles/profile<?= $_SESSION["user"]["id"]  ?>.jpg" alt="Profil">
                     </figure>
                     <input class="input" type="file" name="profile-picture" accept=".jpg, .jpeg, image/jpeg">
                 </div>
@@ -27,8 +27,11 @@
                 </div>
                 <div class="box has-background-danger-light mt-3">
                         <p class="has-text-danger has-text-centered">
-                            <strong> ⚠️ This is a learning project.<br/>
-                            If the password field is filled, the password will change immediately once you click "Save".</strong>
+                            <strong> ⚠️ This is a learning project.</strong><br/>
+                            UX issues :<br/>
+                            If the password field is filled, the password will change immediately once you click "Save"<br/>
+                            There is no method to require a new password<br/>
+                            It is necessary to hit "Save" for changes to take effect (including profile image)
                         </p>
                     </div>
             </div>

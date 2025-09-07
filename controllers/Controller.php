@@ -52,8 +52,8 @@ class Controller{
             $userName = trim(htmlspecialchars($_POST["user-name"] ?? ""));
             $password = trim($_POST["password"] ?? "");
 
-            $userManager = new UserManager();
-            $user = $userManager->getUserByUserName($userName);
+            $usersManager = new UsersManager();
+            $user = $usersManager->getUserByUserName($userName);
             
             if($user?->verifyPassword($password)){
                 $_SESSION["user"] = [
@@ -61,7 +61,7 @@ class Controller{
                     "userName" => $user->getUserName(),
                 ];
 
-                header("Location: index.php");
+                header("Location: index.php?action=profile");
                 exit;
             }
         }
@@ -85,11 +85,55 @@ class Controller{
     }
     
     public function getSignUpPage() : void {
+        // Init error variables
+        $errorUserExists = false;
+        $errorEmptyUser = false;
+        $errorDifferentPasswords = false;
+        $errorEmptyPassword = false;
+        $errorEmptyPasswordCheck = false;
+        
+        // POST
+        if ($_SERVER['REQUEST_METHOD'] === "POST"){
+            $userName = trim(htmlspecialchars($_POST["user-name"] ?? ""));
+            $password = trim($_POST["password"] ?? "");
+            $passwordCheck = trim($_POST["password-check"] ?? "");
+
+            $usersManager = new UsersManager();
+
+            $errorUserExists = (bool) $usersManager->getUserByUserName($userName);
+            $errorEmptyUser = strlen($userName) === 0;
+            $errorDifferentPasswords = $password !== $passwordCheck;
+            $errorEmptyPassword = strlen($password) === 0;
+            $errorEmptyPasswordCheck = strlen($passwordCheck) === 0;
+            $errorCount = $errorUserExists + $errorEmptyUser + $errorDifferentPasswords + $errorEmptyPassword + $errorEmptyPasswordCheck;
+
+            echo $errorCount;
+            
+            if ($errorCount === 0){
+                $createdUser = $usersManager->createUser($userName, $password);
+                if ($createdUser){
+                    $_SESSION["user"] = [
+                        "id" => $createdUser->getId(),
+                        "userName" => $createdUser->getUserName(),
+                    ];
+    
+                    header("Location: index.php?action=profile");
+                    exit;
+                }
+            } 
+        }
+        
+        // GET
         $view = new View;
         $view->render(
             "signUpPage",
             [
                 "albumsList" => $this->albumsList,
+                "errorUserExists" => $errorUserExists,
+                "errorEmptyUser" => $errorEmptyUser,
+                "errorDifferentPasswords" => $errorDifferentPasswords,
+                "errorEmptyPassword" => $errorEmptyPassword,
+                "errorEmptyPasswordCheck" => $errorEmptyPasswordCheck
             ]
         );
     }
@@ -115,11 +159,11 @@ class Controller{
             $newUserName = trim($_POST["user-name"] ?? "");
             $newPassword = trim($_POST["password"] ?? "");
             
-            $userManager = new UserManager();
-            $user = $userManager->getUserById($_SESSION["user"]["id"]);
+            $usersManager = new UsersManager();
+            $user = $usersManager->getUserById($_SESSION["user"]["id"]);
             
             if ($newUserName !== "" && $newUserName !== $user->getUserName()){
-                $userDB = $userManager->changeUserName($user->getId(), $newUserName);
+                $userDB = $usersManager->changeUserName($user->getId(), $newUserName);
                 
                 if ($userDB){
                     $_SESSION["user"]["userName"] = $userDB->getUserName();
@@ -127,7 +171,7 @@ class Controller{
             }
 
             if ($newPassword !== "" && !$user->verifyPassword($newPassword)){
-                $userDB = $userManager->changePassword($user->getId(), $newPassword);
+                $userDB = $usersManager->changePassword($user->getId(), $newPassword);
             }
             
             if (isset($_FILES['profile-picture']) && $_FILES['profile-picture']['error'] === UPLOAD_ERR_OK) {

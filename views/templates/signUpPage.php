@@ -7,25 +7,31 @@
           <div class="card-content">
             <h1 class="title has-text-centered">Sign Up</h1>
 
-            <form action="#" method="POST">
+            <form method="POST">
               <div class="field">
-                <label class="label">E-mail</label>
+                <label class="label">User Name</label>
                 <div class="control">
-                  <input class="input" type="email" placeholder="example@domain.com" required>
+                  <input name="user-name" class="input" type="text" placeholder="example" required>
+                  <p class="help is-danger"><?= $errorUserExists ? "User name is already used" : "" ?></p>
+                  <p class="help is-danger"><?= $errorEmptyUser ? "This field is required" : "" ?></p>
                 </div>
               </div>
 
               <div class="field">
                 <label class="label">Password</label>
                 <div class="control">
-                  <input class="input" type="password" placeholder="********" required>
+                  <input name="password" class="input" type="password" placeholder="********" required>
+                  <p class="help is-danger"><?= $errorDifferentPasswords ? "Passwords don't match" : "" ?></p>
+                  <p class="help is-danger"><?= $errorEmptyPassword ? "This field is required" : "" ?></p>
                 </div>
               </div>
               
               <div class="field">
                 <label class="label">Check password</label>
                 <div class="control">
-                  <input class="input" type="password" placeholder="********" required>
+                  <input name="password-check" class="input" type="password" placeholder="********" required>
+                  <p class="help is-danger"><?= $errorDifferentPasswords ? "Passwords don't match" : "" ?></p>
+                  <p class="help is-danger"><?= $errorEmptyPasswordCheck ? "This field is required" : "" ?></p>
                 </div>
               </div>
 

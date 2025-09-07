@@ -1,5 +1,5 @@
 <?php
-class UserManager{
+class UsersManager{
     private $db;
 
     public function __construct()
@@ -21,6 +21,19 @@ class UserManager{
         $userDB = $result->fetch();
 
         return $userDB ? new User($userDB) : null;
+    }
+    
+    public function createUser(string $userName, string $password) : ?User {
+        $sql = "INSERT INTO users (user_name, password_hash) VALUES (:userName, :passwordHash)";
+        $this->db->query($sql, [":userName" => $userName, ":passwordHash" => password_hash($password, PASSWORD_DEFAULT)]);
+        $lastId = $this->db->lastInsertId();
+
+        $defaultProfileImagePath = "assets/profiles/default.jpg";
+        $destinationProfileImagePath = "assets/profiles/profile$lastId.jpg";
+
+        copy($defaultProfileImagePath, $destinationProfileImagePath);
+
+        return $this->getUserById($lastId);
     }
     
     public function changeUserName(int $userId, string $newUserName) : ?User {

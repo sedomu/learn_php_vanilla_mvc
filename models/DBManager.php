@@ -34,4 +34,8 @@ class DBManager{
         return $query;
     }
     
+    public function lastInsertId() : string | bool {
+        return $this->getPDO()->lastInsertId();
+    }
+    
 }
