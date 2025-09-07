@@ -42,7 +42,15 @@ class User {
         $this->userName = $userName;
     }
     
+    public function setPasswordHash(string $passwordHash) : void {
+        $this->passwordHash = $passwordHash;
+    }
+    
     public function setPassword(string $password) : void {
         $this->passwordHash = password_hash($password, PASSWORD_DEFAULT);
+    }
+    
+    public function verifyPassword(string $password) : bool {
+        return password_verify($password, $this->passwordHash);
     }
 }

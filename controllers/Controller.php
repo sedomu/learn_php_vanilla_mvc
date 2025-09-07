@@ -49,16 +49,13 @@ class Controller{
         
         // POST
         if ($_SERVER['REQUEST_METHOD'] === "POST"){
-            $userName = $_POST["user-name"] ?? "";
-            $password = $_POST["password"] ?? "";
-
-            $userName = trim(htmlspecialchars($userName));
-            $password = trim($password);
+            $userName = trim(htmlspecialchars($_POST["user-name"] ?? ""));
+            $password = trim($_POST["password"] ?? "");
 
             $userManager = new UserManager();
-            $user = $userManager->checkCredentials($userName, $password);
+            $user = $userManager->getUserByUserName($userName);
             
-            if($user){
+            if($user?->verifyPassword($password)){
                 $_SESSION["user"] = [
                     "id" => $user->getId(),
                     "userName" => $user->getUserName(),
@@ -119,13 +116,19 @@ class Controller{
             $newUserName = trim($_POST["user-name"] ?? "");
             $newPassword = trim($_POST["password"] ?? "");
             
-            if ($newUserName !== "" && $newUserName !== $_SESSION["user"]["userName"]){
-                $userManager = new UserManager();
-                $userDB = $userManager->changeUserName($_SESSION["user"]["id"], $newUserName);
+            $userManager = new UserManager();
+            $user = $userManager->getUserById($_SESSION["user"]["id"]);
+            
+            if ($newUserName !== "" && $newUserName !== $user->getUserName()){
+                $userDB = $userManager->changeUserName($user->getId(), $newUserName);
                 
                 if ($userDB){
                     $_SESSION["user"]["userName"] = $userDB->getUserName();
                 }
+            }
+
+            if ($newPassword !== "" && !$user->verifyPassword($newPassword)){
+                $userDB = $userManager->changePassword($user->getId(), $newPassword);
             }
         }
         
