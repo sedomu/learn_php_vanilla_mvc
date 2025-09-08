@@ -79,8 +79,9 @@ class Controller{
     public function getLogoutPage() : void {
         session_unset();
         session_destroy();
-
-        header("Location: index.php");
+        
+        $getParams = urldecode($_GET['currentPage']);
+        header("Location: $getParams");
         exit;
     }
     

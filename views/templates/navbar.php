@@ -35,7 +35,7 @@
                         <a class="button is-light" href="index.php?action=profile">
                             <?= $_SESSION["user"]["userName"] ?>
                         </a>
-                        <a class="button is-danger" href="index.php?action=logout">
+                        <a class="button is-danger" href="index.php?action=logout&currentPage=<?= urlencode($_SERVER['REQUEST_URI']) ?>" >
                             Logout
                         </a>
                     <?php else: ?>
