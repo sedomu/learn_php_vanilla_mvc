@@ -34,7 +34,7 @@ class CommentsManager{
         }
     }
     
-    private function getCommentById(int $commentId) : ?Comment {
+    public function getCommentById(int $commentId) : ?Comment {
         $sql = "
             SELECT 
                 comments.id,
@@ -58,5 +58,10 @@ class CommentsManager{
         $lastId = $this->db->lastInsertId();
 
         return $lastId ? $this->getCommentById($lastId) : null;
+    }
+    
+    public function deleteComment(int $commentId) : Void  {
+        $sql = "DELETE FROM comments WHERE id = :commentId";
+        $this->db->query($sql, [":commentId" => $commentId]);
     }
 }

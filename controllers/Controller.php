@@ -28,6 +28,7 @@ class Controller{
         $album = $this->albums->getOneAlbum($albumId);
         $commentsList = $this->comments->getCommentsForOneAlbum($albumId);
         $userId = $_SESSION["user"]["id"] ?? null;
+        $deleteComment = filter_input(INPUT_GET, "deleteComment", FILTER_VALIDATE_INT) ?? "";
         
         // POST
         if ($_SERVER['REQUEST_METHOD'] === "POST" && $userId){
@@ -40,7 +41,20 @@ class Controller{
             exit;
         }
         
-        // GET
+        // GET - DELETE COMMENT
+        if ($deleteComment){
+            $commentsManager = new CommentsManager();
+            $comment = $commentsManager->getCommentById($deleteComment);
+            
+            if ($comment && $userId === $comment->getUserId()){
+                $commentsManager->deleteComment($comment->getId());
+            }
+
+            header("Location: index.php?action=album&albumId=$albumId");
+            exit;
+        }
+        
+        // GET - RENDER PAGE
         if (!$album){
             $view = new View;
             $view->render("notFoundPage", ["albumsList" => $this->albumsList]);
