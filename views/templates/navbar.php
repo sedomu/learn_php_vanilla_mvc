@@ -31,12 +31,21 @@
         <div class="navbar-end">
             <div class="navbar-item">
                 <div class="buttons">
-                    <a class="button is-primary">
-                        <strong>Sign up</strong>
-                    </a>
-                    <a class="button is-light">
-                        Log in
-                    </a>
+                    <?php if (isset($_SESSION['user'])): ?>
+                        <a class="button is-light" href="index.php?action=profile">
+                            <?= $_SESSION["user"]["userName"] ?>
+                        </a>
+                        <a class="button is-danger" href="index.php?action=logout&currentPage=<?= urlencode($_SERVER['REQUEST_URI']) ?>" >
+                            Logout
+                        </a>
+                    <?php else: ?>
+                        <a class="button is-primary" href="index.php?action=signup">
+                            <strong>Sign up</strong>
+                        </a>
+                        <a class="button is-light" href="index.php?action=login">
+                            Log in
+                        </a>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>

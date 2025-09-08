@@ -1,16 +1,14 @@
 <?php
-class Comment{
+class User {
     private int $id;
-    private int $albumId;
-    private int $userId;
     private string $userName;
-    private string $comment;
+    private string $passwordHash;
     
     /**
      * @param array<string, mixed> $data
      */
-    public function __construct(array $data = []) {
-        if(!empty($data)){
+    public function __construct(array $data = []){
+        if (!empty($data)){
             $this->hydrate($data);
         }
     }
@@ -36,22 +34,6 @@ class Comment{
         $this->id = $id;
     }
     
-    public function getAlbumId() : int {
-        return $this->albumId;
-    }
-    
-    public function setAlbumId(int $albumId) : void {
-        $this->albumId = $albumId;
-    }
-    
-    public function getUserId() : int {
-        return $this->userId;
-    }
-    
-    public function setUserId(int $userId) : void {
-        $this->userId = $userId;
-    }
-    
     public function getUserName() : string {
         return $this->userName;
     }
@@ -60,11 +42,15 @@ class Comment{
         $this->userName = $userName;
     }
     
-    public function getComment() : string {
-        return $this->comment;
+    public function setPasswordHash(string $passwordHash) : void {
+        $this->passwordHash = $passwordHash;
     }
     
-    public function setComment(string $comment) : void {
-        $this->comment = $comment;
+    public function setPassword(string $password) : void {
+        $this->passwordHash = password_hash($password, PASSWORD_DEFAULT);
+    }
+    
+    public function verifyPassword(string $password) : bool {
+        return password_verify($password, $this->passwordHash);
     }
 }
