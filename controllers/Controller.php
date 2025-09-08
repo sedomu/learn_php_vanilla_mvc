@@ -24,10 +24,23 @@ class Controller{
     }
     
     public function getAlbumPage() : void {
-        $albumId = $_GET["albumId"];
+        $albumId = filter_input(INPUT_GET, "albumId", FILTER_VALIDATE_INT);
         $album = $this->albums->getOneAlbum($albumId);
         $commentsList = $this->comments->getCommentsForOneAlbum($albumId);
+        $userId = $_SESSION["user"]["id"] ?? null;
+        
+        // POST
+        if ($_SERVER['REQUEST_METHOD'] === "POST" && $userId){
+            $comment = trim(htmlspecialchars($_POST["comment"] ?? ""));
 
+            $commentsManager = new CommentsManager();
+            $commentsManager->createComment($albumId, $userId, $comment);
+
+            header("Location: index.php?action=album&albumId=$albumId");
+            exit;
+        }
+        
+        // GET
         if (!$album){
             $view = new View;
             $view->render("notFoundPage", ["albumsList" => $this->albumsList]);
